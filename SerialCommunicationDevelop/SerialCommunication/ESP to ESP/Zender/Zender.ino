@@ -1,7 +1,7 @@
 #include <SoftwareSerial.h>
 
+int y;
 SoftwareSerial espSerial(5, 6);
-bool y = false;
 String h = "FALSE";
 String str;
 void setup(){
@@ -11,13 +11,15 @@ delay(2000);
 }
 void loop()
 {
-Serial.println(y);
+
 str =String("coming from arduino: ")+String("H= ")+String(h);
 espSerial.println(str);
 delay(1000);
 if (h == "FALSE"){
-  y = true;
+  y = 1;
+  Serial.println(y);
 } else {
-  y = false;
+  y = 0; 
+  Serial.println(y);
 }
 }
