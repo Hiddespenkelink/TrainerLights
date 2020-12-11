@@ -1,5 +1,3 @@
-#include <SoftwareSerial.h>
-
 uint8_t lampData;
 
 struct ls {
@@ -9,6 +7,9 @@ struct ls {
 
 uint8_t lampnummerBuffer;
 uint8_t stateBuffer;
+int readed = 0;
+uint8_t databuffer;
+
 
 void setup() {
   Serial.begin(115200);
@@ -17,7 +18,9 @@ void setup() {
 }
 
 void loop() {
-  int databuffer = Serial.read();
-  Serial.println(databuffer);
-  delay(500);
+  if (Serial.available() > 0) {
+    databuffer = Serial.readBytes();
+  }
+  
+  delay(1000);
 }
