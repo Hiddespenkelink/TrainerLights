@@ -44,6 +44,10 @@ int countTime = 0;                                    // create variable for cou
 unsigned long startMillisReadData;                    // start counting time for value display
 int secondsDataDisplay = 1000;                        // use to calculate time for sensor. By default every 1000 milli seconds.
 
+double reactieTijd;
+double bufferTijd;
+double timeSet;
+
 BLYNK_CONNECTED() 
 { bridge0.setAuthToken("pS6yoAOJtTu63e3ZPB_kTbZcNSO0d6sC"); }
 
@@ -69,11 +73,18 @@ void loop()
   /* 0- General */
 
   Blynk.run();                                                /* keep the Blynk active */
-  timer.run();                                                /* keep the counter for Blynk active */
+  timer.run(); 
+  
+  /* keep the counter for Blynk active */
   if (lampState == 1) {
     digitalWrite(D6, HIGH);
+    if (timeSet == 0){
+    bufferTijd = millis();
+    timeSet = 1;
+    }
   } else {
     digitalWrite(D6, LOW);
+    timeSet = 0;
   }
 
   // Clears the trigPin condition
@@ -90,7 +101,11 @@ void loop()
   // Displays the distance on the Serial Monitor
 
   if (distance < 10){
-    raakState =1;
+    raakState = 1;
+    digitalWrite(D6, LOW);
+    if (timeSet == 1){
+    reactieTijd = (millis() - bufferTijd) / 1000;
+    }
   }
 }
 
@@ -102,5 +117,5 @@ BLYNK_WRITE(V1)                                                     // Read the 
 void readValue()                                                    // it activates every second
 {
   bridge0.virtualWrite(V1,raakState);                                       // send potRead to Device A (project A) web interface 
-
+  bridge0.virtualWrite(V90,reactieTijd); 
 }
