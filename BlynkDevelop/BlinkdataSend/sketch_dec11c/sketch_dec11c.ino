@@ -21,7 +21,7 @@
 
 #include <ESP8266WiFi.h>                              // Enable the use of wifi module. Make sure you downloaded and installed the ESP8266 library
 #include <BlynkSimpleEsp8266.h>
-char auth[] = "qhbu0KEVQeI611aHj0RTKW55-EWgX7yk";     // Put in the Auth Token for the project from Blynk. You should receive it in your email.
+char auth[] = "DBO3UcGnFjdiIiH2pjtb0nQa2FXI8xFI";     // Put in the Auth Token for the project from Blynk. You should receive it in your email.
 // This is the Auth Token or project for Device B. If Device A & Device B sharing same project, can use same Atuth Token
 char ssid[] = "Hidde";                  // Key in your wifi name. You can check with your smart phone for your wifi name
 char pass[] = "1234567890";                             // Key in your wifi password.
@@ -84,7 +84,6 @@ void loop()
     }
   } else {
     digitalWrite(D6, LOW);
-    digitalWrite(D8, LOW);
     timeSet = 0;
     raakState = 0;
   }
@@ -102,6 +101,8 @@ void loop()
   distance = duration * 0.034 / 2; // Speed of sound wave divided by 2 (go and back)
   // Displays the distance on the Serial Monitor
 
+  Serial.println(distance);
+  
   if (distance < 10){
     raakState = 1;
     digitalWrite(D6, LOW);
@@ -118,6 +119,6 @@ BLYNK_WRITE(V1)                                                     // Read the 
 
 void readValue()                                                    // it activates every second
 {
-  bridge0.virtualWrite(V1,raakState);                                       // send potRead to Device A (project A) web interface 
-  bridge0.virtualWrite(V91,reactieTijd); 
+  bridge0.virtualWrite(V2,raakState);                                       // send potRead to Device A (project A) web interface 
+  bridge0.virtualWrite(V92,reactieTijd); 
 }
